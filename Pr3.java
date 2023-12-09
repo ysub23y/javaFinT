@@ -1,47 +1,51 @@
-package Ch6;
+package Ch7;
 
-public class Pr3 { //메소드 오버라이딩 예제
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+public class Pr3 {
     public static void main(String[] args) {
-        BadBank b = new BadBank();
-        b.getInterestRate();
-        NomalBank n = new NomalBank();
-        n.getInterestRate();
-        GoodBank g = new GoodBank();
-        g.getInterestRate();
+        Book[] b = {
+                new Book(15000),
+                new Book(50000),
+                new Book(20000)
+        };
+        System.out.println("정렬 전");
+        for(int i = 0; i<b.length; i++){
+            System.out.printf("Book [price = %d]\n", b[i].price);
+        }
+
+        for (int k = 1; k < b.length; k++){
+            if(b[k-1].compareTo(b[k]) > 0) {
+               Book tmp = b[k];
+               b[k] = b[k-1];
+               b[k-1] = tmp;
+            }
+        }
+        if (b[0].compareTo(b[2]) > 0){
+            Book temp = b[2];
+            b[2] = b[0];
+            b[0] = temp;
+        }
+
+        System.out.println("정렬 후");
+        for(int i = 0; i<b.length; i++){
+            System.out.printf("Book [price = %d]\n",b[i].price);
+        }
+
 
     }
 }
+class Book implements Comparable<Book>{
+    int price;
 
-class Bank{
-    double interestRate;
-    double getInterestRate(){
-        return interestRate;
+    public Book (int pr){
+        this.price = pr;
     }
-}
-class BadBank extends Bank{
-    double ir = 10.0;
 
     @Override
-    double getInterestRate() {
-        System.out.printf("BadBank의 이자율: %.1f\n", ir);
-        return ir;
+    public int compareTo(Book b) {
+        return Integer.compare(this.price, b.price);
     }
-}
-class NomalBank extends Bank{
-    double ir = 5.0;
 
-    @Override
-    double getInterestRate() {
-        System.out.printf("NormalBank의 이자율: %.1f\n", ir);
-        return ir;
-    }
-}
-class GoodBank extends Bank{
-    double ir = 3.0;
-
-    @Override
-    double getInterestRate() {
-        System.out.printf("GooddBank의 이자율: %.1f\n", ir);
-        return ir;
-    }
 }
